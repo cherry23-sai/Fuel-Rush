@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Rush - Payment Summary</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        .summary-section {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        h2 {
+            text-align: center;
+        }
+        .summary-item {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: #e7e7e7;
+            display: flex;
+            justify-content: space-between;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Fuel Rush - Payment Summary</h1>
+</header>
+
+<section class="summary-section">
+    <h2>Your Payment Details</h2>
+    <div id="payment-summary"></div>
+</section>
+
+<footer>
+    <p>&copy; 2024 Fuel Rush</p>
+</footer>
+
+<script>
+    // Function to get URL parameters
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            method: params.get('method'),
+            amount: params.get('amount'),
+            bank: params.get('bank') || '',
+            accountNumber: params.get('accountNumber') || '',
+            cardNumber: params.get('cardNumber') || '',
+            cvv: params.get('cvv') || '',
+            expiryDate: params.get('expiryDate') || ''
+        };
+    }
+
+    function displayPaymentSummary() {
+        const paymentData = getQueryParams();
+        const summaryContainer = document.getElementById('payment-summary');
+
+        // Create summary items based on payment method
+        summaryContainer.innerHTML = `
+            <div class="summary-item"><strong>Payment Method:</strong> ${paymentData.method}</div>
+            <div class="summary-item"><strong>Amount:</strong> ₹${paymentData.amount}</div>
+        `;
+
+        if (paymentData.method === 'Net Banking') {
+            summaryContainer.innerHTML += `
+                <div class="summary-item"><strong>Bank Name:</strong> ${paymentData.bank}</div>
+                <div class="summary-item"><strong>Account Number:</strong> ${paymentData.accountNumber}</div>
+            `;
+        } else if (paymentData.method === 'Card Payment') {
+            summaryContainer.innerHTML += `
+                <div class="summary-item"><strong>Card Number:</strong> ${paymentData.cardNumber.replace(/.(?=.{4})/g, '*')}</div>
+                <div class="summary-item"><strong>CVV:</strong> ${paymentData.cvv.replace(/./g, '*')}</div>
+                <div class="summary-item"><strong>Expiry Date:</strong> ${paymentData.expiryDate}</div>
+            `;
+        } else if (paymentData.method === 'UPI') {
+            summaryContainer.innerHTML += `
+                <div class="summary-item"><strong>QR Code:</strong> <img src="path/to/qr-code.png" alt="QR Code" width="100"></div>
+            `;
+        }
+    }
+
+    // Call the display function on page load
+    displayPaymentSummary();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Rush - Select Location</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffcc00; /* Orange background */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #ff9900; /* Darker orange for header */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.location-section {
+    max-width: 400px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #ff9900; /* Darker orange for focus */
+    outline: none;
+}
+
+button {
+    width: 100%;
+    background-color: #ff9900; /* Darker orange for button */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #cc7a00; /* Even darker orange on hover */
+}
+
+.location-message {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #ff9900; /* Darker orange for footer */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 98.6%;
+    margin-top: 197px;
+}
+.suggestions-list {
+    max-height: 150px;
+    overflow-y: auto;
+}
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+</style>
+<body>
+
+    <header>
+        <h1>Fuel Rush</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="order.html">Order Fuel</a></li>
+                <li><a href="register-bunk.html">Register Bunk</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="location-section">
+        <h2>Select Your Location</h2>
+        <form id="location-form">
+            <input type="text" id="location-input" placeholder="Enter your location" required>
+            <button type="submit">Confirm Location</button>
+        </form>
+        <div id="suggestions" class="suggestions-list" style="border: 1px solid #ccc; display: none; position: absolute; background: white; z-index: 1000;"></div>
+        <div class="location-message" style="margin-top: 20px;"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Fuel Rush</p>
+    </footer>
+
+    <script>
+        document.getElementById('location-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const location = document.getElementById('location-input').value;
+
+            // Store the location in localStorage (optional)
+            localStorage.setItem('selectedLocation', location);
+            
+            // Redirect to the Order Fuel page
+            window.location.href = 'order.html'; // Update this to the actual URL of your Order page
+        });
+        const locations = [
+        "Secundrabad", "Miyapur", "Borabonda", "Yousfguda",
+        "Ameerpet", "Kukatpally", "KPHB", "Bal Nagar", 
+        "Bharath Nagar", "Moosapet","IDPL","Ganesh Nagar","Begumpet","Old City","BHEL","Alwin Colony","JNTU","Hitech City","Madhapur",
+        "LB Nagar","Uppal","Chengicherla"
+    ];
+
+    const locationInput = document.getElementById('location-input');
+    const suggestionsList = document.getElementById('suggestions');
+
+    locationInput.addEventListener('input', function() {
+        const input = this.value.toLowerCase();
+        suggestionsList.innerHTML = ''; // Clear previous suggestions
+        suggestionsList.style.display = 'none'; // Hide suggestions initially
+
+        if (input) {
+            const filteredLocations = locations.filter(location => 
+                location.toLowerCase().includes(input)
+            );
+
+            filteredLocations.forEach(location => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.textContent = location;
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.addEventListener('click', function() {
+                    locationInput.value = location; // Set input value to selected location
+                    suggestionsList.innerHTML = ''; // Clear suggestions
+                    suggestionsList.style.display = 'none'; // Hide suggestions
+                });
+                suggestionsList.appendChild(suggestionItem);
+            });
+
+            if (filteredLocations.length > 0) {
+                suggestionsList.style.display = 'block'; // Show suggestions if there are any
+            }
+        }
+    });
+
+    // Optional: Hide suggestions when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!locationInput.contains(event.target)) {
+            suggestionsList.style.display = 'none';
+        }
+    });
+
+    document.getElementById('location-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const selectedLocation = locationInput.value;
+        document.querySelector('.location-message').innerText = `Location confirmed: ${selectedLocation}`;
+    });
+    </script>
+
+</body>
+</html>

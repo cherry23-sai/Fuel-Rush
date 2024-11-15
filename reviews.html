@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Rush - Reviews</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="script.js" defer></script>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.section {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    color: #333;
+}
+
+.predefined-reviews {
+    margin-bottom: 20px;
+}
+
+.review-item {
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.review-item strong {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.user-review-form {
+    margin-bottom: 20px;
+}
+
+input[type="text"], textarea, select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.submitted-reviews {
+    margin-top: 20px;
+}
+
+.submitted-reviews h3 {
+    margin-top: 20px;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background: #007BFF;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 98.7%;
+    margin-top: 20px;
+}
+
+</style>
+<body>
+
+    <header>
+        <h1>Fuel Rush</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="order.html">Order Fuel</a></li>
+                <li><a href="register-bunk.html">Register Bunk</a></li>
+                <li><a href="location.html">Select Location</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section">
+        <h2>Customer Reviews</h2>
+        
+        <div class="predefined-reviews">
+            <h3>Previous Reviews:</h3>
+            <div class="review-item">
+                <strong>John D.</strong> <span>(5 stars)</span>
+                <p>"Fast and reliable service! Highly recommend!"</p>
+            </div>
+            <div class="review-item">
+                <strong>Sarah L.</strong> <span>(4 stars)</span>
+                <p>"Got my fuel delivered right on time. Great job!"</p>
+            </div>
+            <div class="review-item">
+                <strong>Mark T.</strong> <span>(5 stars)</span>
+                <p>"Excellent customer support and speedy delivery!"</p>
+            </div>
+        </div>
+
+        <div class="user-review-form">
+            <h3>Submit Your Review:</h3>
+            <form id="review-form">
+                <input type="text" id="review-name" placeholder="Your Name" required>
+                <textarea id="review-text" placeholder="Write your review..." required></textarea>
+                <select id="review-rating">
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+
+        <div class="submitted-reviews">
+            <h3>Submitted Reviews:</h3>
+            <div id="reviews-list"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Fuel Rush</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const reviewForm = document.getElementById('review-form');
+            const reviewsList = document.getElementById('reviews-list');
+
+            reviewForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Get review details
+                const name = document.getElementById('review-name').value;
+                const reviewText = document.getElementById('review-text').value;
+                const rating = document.getElementById('review-rating').value;
+
+                // Create review item
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                reviewItem.innerHTML = `
+                    <strong>${name}</strong> <span>(${rating} stars)</span>
+                    <p>"${reviewText}"</p>
+                `;
+
+                // Append to reviews list
+                reviewsList.appendChild(reviewItem);
+
+                // Clear the form
+                reviewForm.reset();
+            });
+        });
+    </script>
+
+</body>
+</html>
